@@ -95,9 +95,9 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 // import LoginPage from "pages/Login.js";
 // import SignupPage from "pages/Signup.js";
 // import PricingPage from "pages/Pricing.js";
-// import AboutUsPage from "pages/AboutUs.js";
+import AboutUsPage from "pages/AboutUs.js";
 // import ContactUsPage from "pages/ContactUs.js";
-// import BlogIndexPage from "pages/BlogIndex.js";
+import BlogIndexPage from "pages/BlogIndex.js";
 // import TermsOfServicePage from "pages/TermsOfService.js";
 // import PrivacyPolicyPage from "pages/PrivacyPolicy.js";
 
@@ -105,17 +105,13 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 // import MainLandingPage from "MainLandingPage.js";
 // import ThankYouPage from "ThankYouPage.js";
 import HotelTravelLandingPage from "demos/HotelTravelLandingPage.js";
+import KutMain from "pages/KutMain.js";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
- } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 export default function App() {
   // If you want to disable the animation just use the disabled `prop` like below on your page's component
   // return <AnimationRevealPage disabled>xxxxxxxxxx</AnimationRevealPage>;
-
 
   return (
     <Router>
@@ -129,10 +125,21 @@ export default function App() {
         <Route path="/thank-you">
           <ThankYouPage />
         </Route> */}
+         <Route path="/blog">
+          <BlogIndexPage />
+        </Route>
+        <Route path="/about">
+          <AboutUsPage />
+        </Route>
+        <Route path="/tours">
+          <BlogIndexPage />
+        </Route>
         <Route path="/">
-          <HotelTravelLandingPage />
+          <KutMain />
+          {/* <HotelTravelLandingPage /> */}
           {/* <MainLandingPage /> */}
         </Route>
+       
       </Switch>
     </Router>
   );
