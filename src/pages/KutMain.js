@@ -38,13 +38,13 @@ export default () => {
   return (
     <AnimationRevealPage>
       {homepage && menu && <Hero menu={menu} homepage={homepage} />}
-      <Features />
-      <SliderCard />
+      {/* <Features /> */}
+      {/* <SliderCard /> */}
       <TrendingCard />
       <MainFeature />
       <Blog />
-      <Testimonial textOnLeft={true} />
-      <FAQ />
+      {/* <Testimonial textOnLeft={true} /> */}
+      {/* <FAQ /> */}
       {/* <SubscribeNewsLetterForm /> */}
       <Footer />
     </AnimationRevealPage>

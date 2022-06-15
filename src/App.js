@@ -106,6 +106,7 @@ import BlogIndexPage from "pages/BlogIndex.js";
 // import ThankYouPage from "ThankYouPage.js";
 import HotelTravelLandingPage from "demos/HotelTravelLandingPage.js";
 import KutMain from "pages/KutMain.js";
+import TeamPage from "pages/TeamPage.js";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -125,6 +126,9 @@ export default function App() {
         <Route path="/thank-you">
           <ThankYouPage />
         </Route> */}
+         <Route path="/team">
+          <TeamPage />
+        </Route>
          <Route path="/blog">
           <BlogIndexPage />
         </Route>
