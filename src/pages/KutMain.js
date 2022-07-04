@@ -13,28 +13,8 @@ import SubscribeNewsLetterForm from "components/forms/SimpleSubscribeNewsletter.
 import Footer from "components/footers/MiniCenteredFooter.js";
 import { fetchAPI } from "helpers/api";
 
-export default () => {
-  const [homepage, setHomePage] = React.useState(null);
-  const [menu, setMenu] = React.useState(null);
-  useEffect(() => {
-    async function fetchData() {
-      console.log("homepageRes");
+export default ({menu, homepage}) => {
 
-      const [menuRes, homepageRes] = await Promise.all([
-        fetchAPI("/menu", { populate: "*", locale: "en" }),
-        fetchAPI("/homepage", {
-          populate: {
-            heros: { populate: "*" },
-            seo: { populate: "*" },
-          },
-        }),
-      ]);
-      setHomePage(homepageRes);
-      setMenu(menuRes);
-      console.log({ homepageRes, menuRes });
-    }
-    fetchData();
-  }, []);
   return (
     <AnimationRevealPage>
       {homepage && menu && <Hero menu={menu} homepage={homepage} />}
@@ -46,7 +26,9 @@ export default () => {
       {/* <Testimonial textOnLeft={true} /> */}
       {/* <FAQ /> */}
       {/* <SubscribeNewsLetterForm /> */}
-      <Footer />
+      {/* <Footer /> */}
+      {menu && <Footer menu={menu} />}
+
     </AnimationRevealPage>
   );
 };

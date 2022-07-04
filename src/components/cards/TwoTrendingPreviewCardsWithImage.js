@@ -1,6 +1,8 @@
 import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
+import { fetchAPI } from "helpers/api";
+
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { SectionHeading } from "components/misc/Headings.js";
 import { PrimaryLink as PrimaryLinkBase } from "components/misc/Links.js";
@@ -29,9 +31,9 @@ const PrimaryLink = styled(PrimaryLinkBase)`
 `;
 
 const Card = tw.div`mx-auto xl:mx-0 xl:ml-auto max-w-sm md:max-w-xs lg:max-w-sm xl:max-w-xs`;
-const CardImage = styled.div(props => [
+const CardImage = styled.div((props) => [
   `background-image: url("${props.imageSrc}");`,
-  tw`h-80 bg-cover bg-center rounded`
+  tw`h-80 bg-cover bg-center rounded`,
 ]);
 
 const CardText = tw.div`mt-4`;
@@ -56,27 +58,49 @@ const CardMetaFeature = styled.div`
 const CardAction = tw(PrimaryButtonBase)`w-full mt-8`;
 
 export default () => {
+  const [tours, setTours] = React.useState(null);
+  const [main, setMain] = React.useState(null);
+  React.useEffect(() => {
+    async function fetchData() {
+      const [tourRes, mainRes] = await Promise.all([
+        fetchAPI("/tours", { populate: "*", locale: "ru", _limit: 2 }),
+        fetchAPI("/main-tour", { populate: "*", locale: "ru" }),
+        // fetchAPI("/homepage", {
+        //   populate: {
+        //     heros: { populate: "*" },
+        //     seo: { populate: "*" },
+        //   },
+        // }),
+      ]);
+      console.log("tourRes");
+      console.log({ tourRes, mainRes });
+      setTours(tourRes);
+      setMain(mainRes);
+    }
+    fetchData();
+  }, []);
+
   const cards = [
     {
       imageSrc:
-        "https://images.unsplash.com/photo-1553194587-b010d08c6c56?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80",
+        "http://localhost:8080/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
       category: "Туры по стране",
       pricePerDay: "5099 сом",
       title: "Поездка в Иссык-Кол",
       trendingText: "Популярное",
       durationText: "7 дней",
-      locationText: "Ысык-Кол"
+      locationText: "Ысык-Кол",
     },
     {
       imageSrc:
-        "https://images.unsplash.com/photo-1584200186925-87fa8f93be9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80",
+        "http://localhost:8080/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
       category: "Туры по стране",
       pricePerDay: "1690 сом",
       title: "Cruise to the Mariana Trench and the Phillipines",
       trendingText: "Популярное",
       durationText: "15 дней",
-      locationText: "Ош"
-    }
+      locationText: "Ош",
+    },
   ];
   return (
     <Container>
@@ -84,44 +108,80 @@ export default () => {
         <ThreeColumn>
           <HeadingColumn>
             <HeadingInfoContainer>
-              <HeadingTitle>Популярные Туры</HeadingTitle>
+              <HeadingTitle>
+                {main?.data?.attributes?.Title
+                  ? main?.data?.attributes?.Title
+                  : "Популярные Туры"}
+              </HeadingTitle>
               <HeadingDescription>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua enim ad minim veniam.
+                {main?.data?.attributes?.description
+                  ? main?.data?.attributes?.description
+                  : ""}
               </HeadingDescription>
-              <PrimaryLink>
-                Посмотреть все <ArrowRightIcon />
-              </PrimaryLink>
+              {main?.data?.attributes?.button ? (
+                <PrimaryLink
+                  href={
+                    main?.data?.attributes?.button?.url
+                      ? main?.data?.attributes?.button?.url
+                      : "/tours"
+                  }
+                >
+                  {main?.data?.attributes?.button?.text
+                    ? main?.data?.attributes?.button?.text
+                    : "Посмотреть все"}{" "}
+                  <ArrowRightIcon />
+                </PrimaryLink>
+              ) : null}
             </HeadingInfoContainer>
           </HeadingColumn>
-          {cards.map((card, index) => (
-            <CardColumn key={index}>
-              <Card>
-                <CardImage imageSrc={card.imageSrc} />
-                <CardText>
-                  <CardHeader>
-                    <CardType>{card.category}</CardType>
-                    {/* <CardPrice>
+          {tours
+            ? tours?.data.map((card, index) => (
+                <CardColumn key={index}>
+                  <Card>
+                    <CardImage
+                      imageSrc={
+                        "http://localhost:8080" +
+                        card?.attributes?.cover?.data?.attributes?.formats
+                          ?.small?.url
+                      }
+                    />
+                    <CardText>
+                      <CardHeader>
+                        <CardType>
+                          {card?.attributes?.category?.data?.attributes?.name}
+                        </CardType>
+                        {/* <CardPrice>
                       <CardPriceAmount>{card.pricePerDay}</CardPriceAmount> в день
                     </CardPrice> */}
-                  </CardHeader>
-                  <CardTitle>{card.title}</CardTitle>
-                  <CardMeta>
-                    {/* <CardMetaFeature>
+                      </CardHeader>
+                      <CardTitle>{card?.attributes?.title}</CardTitle>
+                      <CardMeta>
+                        {/* <CardMetaFeature>
                       <TrendingIcon /> {card.trendingText}
                     </CardMetaFeature> */}
-                    <CardMetaFeature>
-                      <TimeIcon /> {card.durationText}
-                    </CardMetaFeature>
-                    <CardMetaFeature>
-                      <LocationIcon /> {card.locationText}
-                    </CardMetaFeature>
-                  </CardMeta>
-                  <CardAction>Подробнее</CardAction>
-                </CardText>
-              </Card>
-            </CardColumn>
-          ))}
+                        {card?.attributes?.duration ? (
+                          <CardMetaFeature>
+                            <TimeIcon /> {card?.attributes?.duration}
+                          </CardMetaFeature>
+                        ) : null}
+                        <CardMetaFeature>
+                          <LocationIcon /> {card?.attributes?.place}
+                        </CardMetaFeature>
+                      </CardMeta>
+                      <CardAction
+                        onClick={() =>
+                          window.location.replace(
+                            "/tours/" + card?.attributes?.slug
+                          )
+                        }
+                      >
+                        Подробнее
+                      </CardAction>
+                    </CardText>
+                  </Card>
+                </CardColumn>
+              ))
+            : null}
         </ThreeColumn>
       </Content>
     </Container>

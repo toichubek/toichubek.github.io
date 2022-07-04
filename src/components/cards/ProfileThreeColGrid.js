@@ -41,8 +41,8 @@ const CardLinks = styled.div`
 `
 
 export default ({
-  heading = "Meet These Fine Folks.",
-  subheading = "Our Team",
+  heading = "Гиды",
+  subheading = "Наша команда",
   description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   cards = [
     {

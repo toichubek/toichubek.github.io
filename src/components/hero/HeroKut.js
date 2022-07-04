@@ -2,6 +2,7 @@ import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
+import {getStrapiMedia} from "../../helpers/media";
 
 import Header, {
   LogoLink,
@@ -83,14 +84,14 @@ export default ({ homepage, menu }) => {
 
   const description = homepage?.data.attributes.heros.description;
   const RightColumnComp = RightColumn(
-    `http://localhost:1337${homepage?.data.attributes.heros.images?.data[0].attributes.url}`
+    `http://localhost:8080${homepage?.data.attributes.heros.images?.data[0].attributes.url}`
   );
   return (
     <Container>
       <TwoColumn>
         <LeftColumn>
           <StyledHeader links={navLinks} collapseBreakpointClass="sm" />
-          <div class="bg-white border-slate-100 dark:bg-slate-800 dark:border-slate-500 border-b rounded-t-xl p-4 pb-6 sm:p-10 sm:pb-8 lg:p-6 xl:p-10 xl:pb-8 space-y-6 sm:space-y-8 lg:space-y-6 xl:space-y-8" />
+          <div className="bg-white border-slate-100 dark:bg-slate-800 dark:border-slate-500 border-b rounded-t-xl p-4 pb-6 sm:p-10 sm:pb-8 lg:p-6 xl:p-10 xl:pb-8 space-y-6 sm:space-y-8 lg:space-y-6 xl:space-y-8" />
 
           <Content>
             <Heading>{heading}</Heading>

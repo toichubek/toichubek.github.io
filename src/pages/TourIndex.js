@@ -49,7 +49,7 @@ const LoadMoreButton = tw(PrimaryButton)`mt-16 mx-auto`;
 
 export default ({
   menu,
-  headingText = "Статьи",
+  headingText = "Туры",
   posts = [
     {
       imageSrc:
@@ -59,7 +59,7 @@ export default ({
       title: "Safely Travel in Foreign Countries",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      url: "/blog/detail",
+      url: "/tour/detail",
       featured: true
     },
     getPlaceholderPost(),
@@ -129,5 +129,5 @@ const getPlaceholderPost = () => ({
   title: "Visit the beautiful Alps in Switzerland",
   description:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  url: "/blog/detail"
+  url: "/tour/detail"
 });
