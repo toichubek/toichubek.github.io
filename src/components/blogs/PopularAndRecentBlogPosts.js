@@ -100,7 +100,7 @@ export default () => {
   const popularPosts = [
     {
       postImageSrc:
-        "http://localhost:8080/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
+        "http://admin.kut-tourism.kg/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
       // authorImageSrc:
       //   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3.25&w=512&h=512&q=80",
       title: "Поехали в путешествие",
@@ -112,7 +112,7 @@ export default () => {
     },
     {
       postImageSrc:
-        "http://localhost:8080/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
+        "http://admin.kut-tourism.kg/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
       // authorImageSrc:
       // "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=512&h=512&q=80",
       title: "Как подготовиться к путешествию",
@@ -175,7 +175,7 @@ export default () => {
                         transition={{ duration: 0.3 }}
                         variants={postBackgroundSizeAnimation}
                         imageSrc={
-                          "http://localhost:8080" +
+                          "http://admin.kut-tourism.kg" +
                           post?.attributes?.cover?.data?.attributes?.formats
                             ?.small?.url
                         }

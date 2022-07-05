@@ -1,6 +1,8 @@
 import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
+import {useNavigate} from "react-router-dom";
+
 import { css } from "styled-components/macro"; //eslint-disable-line
 import {getStrapiMedia} from "../../helpers/media";
 
@@ -47,6 +49,8 @@ const Actions = styled.div`
 `;
 
 export default ({ homepage, menu }) => {
+  const navigate = useNavigate();
+
   const heading = (
     <>
       {homepage?.data.attributes.heros.title}
@@ -58,7 +62,7 @@ export default ({ homepage, menu }) => {
   const navLinks = [
     <NavLinks key={1}>
       {menu?.data.attributes.menuItem.map((item) => (
-        <NavLink key={item.id} href={item.url}>
+        <NavLink key={item.id} onClick={()=>navigate(item.url)}>
           {item.name}
         </NavLink>
       ))}
@@ -84,7 +88,7 @@ export default ({ homepage, menu }) => {
 
   const description = homepage?.data.attributes.heros.description;
   const RightColumnComp = RightColumn(
-    `http://localhost:8080${homepage?.data.attributes.heros.images?.data[0].attributes.url}`
+    `http://admin.kut-tourism.kg${homepage?.data.attributes.heros.images?.data[0].attributes.url}`
   );
   return (
     <Container>

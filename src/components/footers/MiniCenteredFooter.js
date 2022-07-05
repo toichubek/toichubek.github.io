@@ -35,7 +35,7 @@ export default ({ menu }) => {
         <Row>
           <LogoContainer>
             <LogoImg src={logo} />
-            <LogoText>Кут тревел</LogoText>
+            <LogoText>Кут туризм</LogoText>
           </LogoContainer>
           <LinksContainer>
             <Link href="/">Главная</Link>
@@ -62,7 +62,7 @@ export default ({ menu }) => {
             </SocialLink>
           </SocialLinksContainer> */}
           <CopyrightText>
-            &copy; Copyright 2022, Кут тревел. All Rights Reserved.
+            &copy; Copyright 2022, Кут туризм. All Rights Reserved.
           </CopyrightText>
         </Row>
       </Content>

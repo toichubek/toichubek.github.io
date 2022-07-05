@@ -83,7 +83,7 @@ export default () => {
   const cards = [
     {
       imageSrc:
-        "http://localhost:8080/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
+        "http://admin.kut-tourism.kg/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
       category: "Туры по стране",
       pricePerDay: "5099 сом",
       title: "Поездка в Иссык-Кол",
@@ -93,7 +93,7 @@ export default () => {
     },
     {
       imageSrc:
-        "http://localhost:8080/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
+        "http://admin.kut-tourism.kg/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
       category: "Туры по стране",
       pricePerDay: "1690 сом",
       title: "Cruise to the Mariana Trench and the Phillipines",
@@ -140,7 +140,7 @@ export default () => {
                   <Card>
                     <CardImage
                       imageSrc={
-                        "http://localhost:8080" +
+                        "http://admin.kut-tourism.kg" +
                         card?.attributes?.cover?.data?.attributes?.formats
                           ?.small?.url
                       }

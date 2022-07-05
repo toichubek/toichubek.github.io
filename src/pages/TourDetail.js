@@ -27,7 +27,7 @@ export default ({menu}) => {
         heading="Тур по городу"
         buttonRounded={false}
         primaryButtonText="Туры"
-        imageSrc="http://localhost:8080/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z"
+        imageSrc="http://admin.kut-tourism.kg/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z"
       />
       <Footer menu={menu} />
     </AnimationRevealPage>

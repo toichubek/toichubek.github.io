@@ -1,6 +1,6 @@
 import "tailwindcss/dist/base.css";
 import "styles/globalStyles.css";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { fetchAPI } from "helpers/api";
 
@@ -25,7 +25,6 @@ import { fetchAPI } from "helpers/api";
  * separately
  */
 
-
 /* Inner Pages */
 // import LoginPage from "pages/Login.js";
 // import SignupPage from "pages/Signup.js";
@@ -46,7 +45,7 @@ import TeamPage from "pages/TeamPage.js";
 import BlogDetailPage from "pages/BlogDetail.js";
 import TourDetailPage from "pages/TourDetail.js";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
   // If you want to disable the animation just use the disabled `prop` like below on your page's component
@@ -73,8 +72,8 @@ export default function App() {
     fetchData();
   }, []);
   return (
-    <Router>
-      <Switch>
+    <BrowserRouter>
+      <Routes>
         {/* <Route path="/components/:type/:subtype/:name">
           <ComponentRenderer />
         </Route>
@@ -84,32 +83,24 @@ export default function App() {
         <Route path="/thank-you">
           <ThankYouPage />
         </Route> */}
-         <Route path="/team">
-          <TeamPage menu={menu} />
-        </Route>
-        <Route path="/blog/detail">
-          <BlogDetailPage menu={menu} />
-        </Route>
-         <Route path="/blog">
-          <BlogIndexPage menu={menu} />
-        </Route>
-        <Route path="/about">
-          <AboutUsPage menu={menu} />
-        </Route>
-        <Route path="/tours">
-          <TourIndexPage menu={menu} />
-        </Route>
-        <Route path="/tour/detail">
-          <TourDetailPage menu={menu} />
-        </Route>
-        <Route path="/">
-          <KutMain menu={menu} homepage={homepage} />
-          {/* <HotelTravelLandingPage /> */}
-          {/* <MainLandingPage /> */}
-        </Route>
-       
-      </Switch>
-    </Router>
+        <Route path="/team" element={<TeamPage menu={menu} />} />
+
+        <Route path="/blog/detail" element={<BlogDetailPage menu={menu} />} />
+
+        <Route path="/blog" element={<BlogIndexPage menu={menu} />} />
+
+        <Route path="/about" element={<AboutUsPage menu={menu} />} />
+
+        <Route path="/tours" element={<TourIndexPage menu={menu} />} />
+
+        <Route path="/tour/detail" element={<TourDetailPage menu={menu} />} />
+        <Route path="/" element={<KutMain menu={menu} homepage={homepage} />} />
+
+        {/* <HotelTravelLandingPage />   */}
+        {/* <MainLandingPage /> */}
+        {/* </Route> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 

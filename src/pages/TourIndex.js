@@ -53,7 +53,7 @@ export default ({
   posts = [
     {
       imageSrc:
-        "http://localhost:8080/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z",
+        "http://admin.kut-tourism.kg/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z",
       category: "Travel Tips",
       date: "April 21, 2020",
       title: "Safely Travel in Foreign Countries",
@@ -123,7 +123,7 @@ export default ({
 
 const getPlaceholderPost = () => ({
   imageSrc:
-    "http://localhost:8080/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z",
+    "http://admin.kut-tourism.kg/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z",
   category: "Travel Guide",
   date: "April 19, 2020",
   title: "Visit the beautiful Alps in Switzerland",

@@ -7,7 +7,7 @@ import qs from "qs";
  */
 export function getStrapiURL(path = "") {
   return `${
-    process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://localhost:8080"
+    process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://admin.kut-tourism.kg"
   }${path}`;
 }
 

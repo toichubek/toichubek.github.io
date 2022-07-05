@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
+import {useNavigate} from "react-router-dom";
 
 import useAnimatedNavToggler from "../../helpers/useAnimatedNavToggler.js";
 
@@ -20,7 +21,7 @@ export const NavLinks = tw.div`inline-block`;
 /* hocus: stands for "on hover or focus"
  * hocus:bg-primary-700 will apply the bg-primary-700 class on hover or focus
  */
-export const NavLink = tw.a`
+export const NavLink = tw.span`
   text-lg my-2 lg:text-sm lg:mx-6 lg:my-0
   font-semibold tracking-wide transition duration-300
   pb-1 border-b-2 border-transparent hover:border-primary-500 hocus:text-primary-500
@@ -64,6 +65,8 @@ export default ({
   className,
   collapseBreakpointClass = "lg",
 }) => {
+  const navigate = useNavigate();
+
   /*
    * This header component accepts an optionals "links" prop that specifies the links to render in the navbar.
    * This links props should be an array of "NavLinks" components which is exported from this file.
@@ -79,9 +82,9 @@ export default ({
    */
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink href="/">Главная</NavLink>
+      <NavLink onClick={()=>navigate('/')}>Главная</NavLink>
       {menu?.data.attributes.menuItem.map((item) => (
-        <NavLink key={item.id} href={item.url}>
+        <NavLink key={item.id} onClick={()=>navigate(item.url)}>
           {item.name}
         </NavLink>
       ))}
@@ -101,9 +104,9 @@ export default ({
     collapseBreakPointCssMap[collapseBreakpointClass];
 
   const defaultLogoLink = (
-    <LogoLink href="/">
+    <LogoLink onClick={()=>navigate('/')}>
       <img src={logo} alt="logo" />
-      Кут тревел
+      Кут туризм
     </LogoLink>
   );
 
