@@ -52,11 +52,12 @@ export default function App() {
   // return <AnimationRevealPage disabled>xxxxxxxxxx</AnimationRevealPage>;
   const [homepage, setHomePage] = React.useState(null);
   const [menu, setMenu] = React.useState(null);
+  const [global, setGlobal] = React.useState(null);
   useEffect(() => {
     async function fetchData() {
       console.log("homepageRes");
 
-      const [menuRes, homepageRes] = await Promise.all([
+      const [menuRes, homepageRes, globalRes] = await Promise.all([
         fetchAPI("/menu", { populate: "*", locale: "ru" }),
         fetchAPI("/homepage", {
           populate: {
@@ -64,10 +65,12 @@ export default function App() {
             seo: { populate: "*" },
           },
         }),
+        fetchAPI("/global", { populate: "*", locale: "ru" }),
       ]);
       setHomePage(homepageRes);
       setMenu(menuRes);
-      console.log({ homepageRes, menuRes });
+      setGlobal(globalRes);
+      console.log({ homepageRes, menuRes, globalRes });
     }
     fetchData();
   }, []);
@@ -83,18 +86,18 @@ export default function App() {
         <Route path="/thank-you">
           <ThankYouPage />
         </Route> */}
-        <Route path="/team" element={<TeamPage menu={menu} />} />
+        <Route path="/team" element={<TeamPage global={global} menu={menu} />} />
 
-        <Route path="/blog/detail" element={<BlogDetailPage menu={menu} />} />
+        <Route path="/blog/detail" element={<BlogDetailPage global={global} menu={menu} />} />
 
-        <Route path="/blog" element={<BlogIndexPage menu={menu} />} />
+        <Route path="/blog" element={<BlogIndexPage global={global} menu={menu} />} />
 
-        <Route path="/about" element={<AboutUsPage menu={menu} />} />
+        <Route path="/about" element={<AboutUsPage global={global} menu={menu} />} />
 
-        <Route path="/tours" element={<TourIndexPage menu={menu} />} />
+        <Route path="/tours" element={<TourIndexPage global={global} menu={menu} />} />
 
-        <Route path="/tour/detail" element={<TourDetailPage menu={menu} />} />
-        <Route path="/" element={<KutMain menu={menu} homepage={homepage} />} />
+        <Route path="/tour/detail" element={<TourDetailPage global={global} menu={menu} />} />
+        <Route path="/" element={<KutMain menu={menu} global={global} homepage={homepage} />} />
 
         {/* <HotelTravelLandingPage />   */}
         {/* <MainLandingPage /> */}

@@ -49,6 +49,7 @@ const LoadMoreButton = tw(PrimaryButton)`mt-16 mx-auto`;
 
 export default ({
   menu,
+  global,
   headingText = "Туры",
   posts = [
     {
@@ -88,7 +89,7 @@ export default ({
   };
   return (
     <AnimationRevealPage>
-      <Header menu={menu} />
+      <Header menu={menu} global={global} />
       <Container>
         <ContentWithPaddingXl>
           <HeadingRow>
@@ -116,7 +117,7 @@ export default ({
           )}
         </ContentWithPaddingXl>
       </Container>
-      <Footer menu={menu} />
+      <Footer menu={menu} global={global} />
     </AnimationRevealPage>
   );
 };

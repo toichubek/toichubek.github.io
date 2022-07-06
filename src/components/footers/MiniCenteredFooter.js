@@ -28,14 +28,17 @@ const SocialLink = styled.a`
 `;
 
 const CopyrightText = tw.p`text-center mt-10 font-medium tracking-wide text-sm text-gray-600`;
-export default ({ menu }) => {
+export default ({ menu , global }) => {
+  
+  const logoUrl =
+    global?.data?.attributes?.favicon?.data?.attributes?.formats?.small?.url;
   return (
     <Container>
       <Content>
         <Row>
           <LogoContainer>
-            <LogoImg src={logo} />
-            <LogoText>Кут туризм</LogoText>
+            {/* <LogoImg src={logoUrl ? "http://kut-tourism.kg" + logoUrl : logo} /> */}
+            <LogoText>{global?.data?.attributes?.siteName || "Кут туризм"}</LogoText>
           </LogoContainer>
           <LinksContainer>
             <Link href="/">Главная</Link>

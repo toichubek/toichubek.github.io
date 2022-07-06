@@ -12,10 +12,10 @@ const AddressLine = tw.span`block`;
 const Email = tw.span`text-sm mt-6 block text-gray-500`;
 const Phone = tw.span`text-sm mt-0 block text-gray-500`;
 
-export default () => {
+export default ({menu, global}) => {
   return (
     <AnimationRevealPage>
-      <Header />
+      <Header global={global} menu={menu} />
       <ContactUsForm />
       <ContactDetails
         cards={[
@@ -99,7 +99,7 @@ export default () => {
           }
         ]}
       />
-      <Footer />
+      <Footer global={global} menu={menu} />
     </AnimationRevealPage>
   );
 };

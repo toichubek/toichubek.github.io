@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import useAnimatedNavToggler from "../../helpers/useAnimatedNavToggler.js";
 
@@ -38,7 +38,7 @@ export const LogoLink = styled(NavLink)`
   ${tw`flex items-center font-black border-b-0 text-2xl! ml-0!`};
 
   img {
-    ${tw`w-10 mr-3`}
+    ${tw`w-20 mr-3`}
   }
 `;
 
@@ -64,6 +64,7 @@ export default ({
   links,
   className,
   collapseBreakpointClass = "lg",
+  global,
 }) => {
   const navigate = useNavigate();
 
@@ -82,9 +83,9 @@ export default ({
    */
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink onClick={()=>navigate('/')}>Главная</NavLink>
+      <NavLink onClick={() => navigate("/")}>Главная</NavLink>
       {menu?.data.attributes.menuItem.map((item) => (
-        <NavLink key={item.id} onClick={()=>navigate(item.url)}>
+        <NavLink key={item.id} onClick={() => navigate(item.url)}>
           {item.name}
         </NavLink>
       ))}
@@ -102,11 +103,15 @@ export default ({
   const { showNavLinks, animation, toggleNavbar } = useAnimatedNavToggler();
   const collapseBreakpointCss =
     collapseBreakPointCssMap[collapseBreakpointClass];
-
+  const logoUrl =
+    global?.data?.attributes?.favicon?.data?.attributes?.url;
   const defaultLogoLink = (
-    <LogoLink onClick={()=>navigate('/')}>
-      <img src={logo} alt="logo" />
-      Кут туризм
+    <LogoLink onClick={() => navigate("/")}>
+      <img
+        src={logoUrl ? "http://admin.kut-tourism.kg" + logoUrl : logo}
+        alt="logo"
+      />
+      {global?.data?.attributes?.siteName || "Кут туризм"}
     </LogoLink>
   );
 

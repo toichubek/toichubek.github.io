@@ -18,10 +18,10 @@ import ShieldIconImage from "images/shield-icon.svg";
 import CustomerLoveIconImage from "images/simple-icon.svg";
 
 const Subheading = tw.span`uppercase tracking-wider text-sm`;
-export default ({menu}) => {
+export default ({menu, global}) => {
   return (
     <AnimationRevealPage>
-      <Header menu={menu} />
+      <Header menu={menu} global={global} />
       <MainFeature1
         subheading={<Subheading>О нас</Subheading>}
         heading="МЫ ПРОСТО ИНТЕРЕСНЫ"
@@ -63,7 +63,7 @@ export default ({menu}) => {
       <TeamCardGrid 
         // subheading={<Subheading>Гиды</Subheading>}
       />
-      <Footer menu={menu} />
+      <Footer menu={menu} global={global} />
     </AnimationRevealPage>
   );
 };

@@ -14,7 +14,7 @@ import Footer from "components/footers/MiniCenteredFooter.js";
 import { fetchAPI } from "helpers/api";
 import Header from "components/headers/light.js";
 
-export default ({menu}) => {
+export default ({menu, global}) => {
   // const [homepage, setHomePage] = React.useState(null);
   // const [menu, setMenu] = React.useState(null);
   // useEffect(() => {
@@ -38,9 +38,9 @@ export default ({menu}) => {
   // }, []);
   return (
     <AnimationRevealPage>
-      <Header menu={menu} />
+      <Header menu={menu} global={global} />
       <Profile />
-      <Footer menu={menu}  />
+      <Footer menu={menu} global={global}  />
     </AnimationRevealPage>
   );
 };

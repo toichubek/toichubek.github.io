@@ -18,10 +18,10 @@ import ShieldIconImage from "images/shield-icon.svg";
 import CustomerLoveIconImage from "images/simple-icon.svg";
 
 const Subheading = tw.span`uppercase tracking-wider text-sm`;
-export default ({menu}) => {
+export default ({menu, global}) => {
   return (
     <AnimationRevealPage>
-      <Header menu={menu} />
+      <Header menu={menu} global={global} />
       <MainFeature1
         subheading={<Subheading>Статья</Subheading>}
         heading="Как подготовиться к путешествию"
@@ -29,7 +29,7 @@ export default ({menu}) => {
         primaryButtonText="Все статьи"
         imageSrc="http://admin.kut-tourism.kg/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z"
       />
-      <Footer menu={menu} />
+      <Footer menu={menu} global={global} />
     </AnimationRevealPage>
   );
 };
