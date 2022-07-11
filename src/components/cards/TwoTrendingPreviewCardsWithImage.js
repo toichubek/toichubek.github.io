@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { fetchAPI } from "helpers/api";
+import { useTranslation } from "react-i18next";
+import { getStrapiMedia } from "helpers/media";
 
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { SectionHeading } from "components/misc/Headings.js";
@@ -57,20 +59,22 @@ const CardMetaFeature = styled.div`
 `;
 const CardAction = tw(PrimaryButtonBase)`w-full mt-8`;
 
-export default () => {
+export default ({ lang }) => {
+  const { t } = useTranslation();
   const [tours, setTours] = React.useState(null);
   const [main, setMain] = React.useState(null);
-  React.useEffect(() => {
+  useEffect(() => {
+    getData();
+  }, [lang]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+  const getData = () => {
     async function fetchData() {
       const [tourRes, mainRes] = await Promise.all([
-        fetchAPI("/tours", { populate: "*", locale: "ru", _limit: 2 }),
-        fetchAPI("/main-tour", { populate: "*", locale: "ru" }),
-        // fetchAPI("/homepage", {
-        //   populate: {
-        //     heros: { populate: "*" },
-        //     seo: { populate: "*" },
-        //   },
-        // }),
+        fetchAPI("/tours", { populate: "*", locale: lang, _limit: 2 }),
+        fetchAPI("/main-tour", { populate: "*", locale: lang }),
       ]);
       console.log("tourRes");
       console.log({ tourRes, mainRes });
@@ -78,30 +82,8 @@ export default () => {
       setMain(mainRes);
     }
     fetchData();
-  }, []);
+  };
 
-  const cards = [
-    {
-      imageSrc:
-        "http://admin.kut-tourism.kg/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
-      category: "Туры по стране",
-      pricePerDay: "5099 сом",
-      title: "Поездка в Иссык-Кол",
-      trendingText: "Популярное",
-      durationText: "7 дней",
-      locationText: "Ысык-Кол",
-    },
-    {
-      imageSrc:
-        "http://admin.kut-tourism.kg/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
-      category: "Туры по стране",
-      pricePerDay: "1690 сом",
-      title: "Cruise to the Mariana Trench and the Phillipines",
-      trendingText: "Популярное",
-      durationText: "15 дней",
-      locationText: "Ош",
-    },
-  ];
   return (
     <Container>
       <Content>
@@ -111,7 +93,7 @@ export default () => {
               <HeadingTitle>
                 {main?.data?.attributes?.Title
                   ? main?.data?.attributes?.Title
-                  : "Популярные Туры"}
+                  : t("popularTours")}
               </HeadingTitle>
               <HeadingDescription>
                 {main?.data?.attributes?.description
@@ -128,7 +110,7 @@ export default () => {
                 >
                   {main?.data?.attributes?.button?.text
                     ? main?.data?.attributes?.button?.text
-                    : "Посмотреть все"}{" "}
+                    : t("viewAll")}{" "}
                   <ArrowRightIcon />
                 </PrimaryLink>
               ) : null}
@@ -139,11 +121,7 @@ export default () => {
                 <CardColumn key={index}>
                   <Card>
                     <CardImage
-                      imageSrc={
-                        "http://admin.kut-tourism.kg" +
-                        card?.attributes?.cover?.data?.attributes?.formats
-                          ?.small?.url
-                      }
+                      imageSrc={getStrapiMedia(card?.attributes?.cover)}
                     />
                     <CardText>
                       <CardHeader>
@@ -175,7 +153,7 @@ export default () => {
                           )
                         }
                       >
-                        Подробнее
+                        {t("more")}
                       </CardAction>
                     </CardText>
                   </Card>

@@ -13,22 +13,27 @@ import SubscribeNewsLetterForm from "components/forms/SimpleSubscribeNewsletter.
 import Footer from "components/footers/MiniCenteredFooter.js";
 import { fetchAPI } from "helpers/api";
 
-export default ({menu, homepage, global}) => {
-
+export default ({ menu, homepage, global, lang, changeLang }) => {
   return (
-    <AnimationRevealPage>
-      {homepage && menu && <Hero menu={menu} global={global} homepage={homepage} />}
+    <>
+      {homepage && menu && (
+        <Hero
+          index={true}
+          handleLang={changeLang}
+          menu={menu}
+          lang={lang}
+          global={global}
+          homepage={homepage}
+        />
+      )}
       {/* <Features /> */}
       {/* <SliderCard /> */}
-      <TrendingCard />
-      <MainFeature />
-      <Blog />
+      <TrendingCard lang={lang}/>
+      <MainFeature lang={lang}/>
+      <Blog lang={lang}/>
       {/* <Testimonial textOnLeft={true} /> */}
       {/* <FAQ /> */}
       {/* <SubscribeNewsLetterForm /> */}
-      {/* <Footer /> */}
-      {menu && <Footer menu={menu} global={global} />}
-
-    </AnimationRevealPage>
+    </>
   );
 };

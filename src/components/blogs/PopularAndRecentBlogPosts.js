@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { fetchAPI } from "helpers/api";
+import { getStrapiMedia } from "helpers/media";
 
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { SectionHeading } from "components/misc/Headings.js";
@@ -52,7 +53,7 @@ const RecentPostsContainer = styled.div`
 const PostTextContainer = tw.div``;
 
 const Column = tw.div``;
-const HeadingColumn = tw(Column)`w-full xl:w-1/3`;
+const HeadingColumn = tw(Column)` xl:w-1/3`;
 const HeadingInfoContainer = tw.div`text-center xl:text-left max-w-lg xl:max-w-none mx-auto xl:mx-0`;
 const HeadingTitle = tw(SectionHeading)`xl:text-left leading-tight`;
 const HeadingDescription = tw.p`text-sm md:text-base lg:text-lg font-medium leading-relaxed text-secondary-100 mt-8`;
@@ -63,28 +64,27 @@ const PrimaryLink = styled(PrimaryLinkBase)`
   }
 `;
 
-export default () => {
-  const [posts, setPosts] = React.useState(null);
-  const [main, setMain] = React.useState(null);
-  React.useEffect(() => {
+export default ({ lang }) => {
+  const [posts, setPosts] = useState(null);
+  const [main, setMain] = useState(null);
+  useEffect(() => {
+    getData();
+  }, []);
+  useEffect(() => {
+    getData();
+  }, [lang]);
+
+  const getData = () => {
     async function fetchData() {
       const [blogRes, mainRes] = await Promise.all([
-        fetchAPI("/blogs", { populate: "*", locale: "ru", _limit: 2 }),
-        fetchAPI("/main-blog", { populate: "*", locale: "ru" }),
-        // fetchAPI("/homepage", {
-        //   populate: {
-        //     heros: { populate: "*" },
-        //     seo: { populate: "*" },
-        //   },
-        // }),
+        fetchAPI("/blogs", { populate: "*", locale: lang, _limit: 2 }),
+        fetchAPI("/main-blog", { populate: "*", locale: lang }),
       ]);
-      console.log("blogRes");
-      console.log({ blogRes, mainRes });
       setPosts(blogRes);
       setMain(mainRes);
     }
     fetchData();
-  }, []);
+  };
 
   // This setting is for animating the post background image on hover
   const postBackgroundSizeAnimation = {
@@ -95,58 +95,6 @@ export default () => {
       backgroundSize: "110%",
     },
   };
-
-  //Recommended: Only 2 Items
-  const popularPosts = [
-    {
-      postImageSrc:
-        "http://admin.kut-tourism.kg/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
-      // authorImageSrc:
-      //   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3.25&w=512&h=512&q=80",
-      title: "Поехали в путешествие",
-      description:
-        "Lorem ipsum dolor sit amet, consecteturious adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua now ele.",
-      // authorName: "Карина Александрова",
-      // authorProfile: "Travel Автор",
-      // url: "https://timerse.com"
-    },
-    {
-      postImageSrc:
-        "http://admin.kut-tourism.kg/uploads/photo_1553194587_b010d08c6c56_ixlib_rb_1_2_a2fe11dfac.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=768&q=80?updated_at=2022-06-18T04:55:17.744Z",
-      // authorImageSrc:
-      // "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=512&h=512&q=80",
-      title: "Как подготовиться к путешествию",
-      description:
-        "Lorem ipsum dolor sit amet, consecteturious adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua now ele.",
-      // authorName: "Салимов Азат",
-      // authorProfile: "Vlogger",
-      // url: "https://reddit.com"
-    },
-  ];
-
-  const recentPosts = [
-    {
-      postImageSrc:
-        "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80",
-      title: "Как провести каникулы в Бишкеке",
-      authorName: "Байрам Калимов",
-      url: "https://reddit.com",
-    },
-    {
-      postImageSrc:
-        "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80",
-      title: "Выбор направления путешествия",
-      authorName: "Сезан Александров",
-      url: "https://reddit.com",
-    },
-    {
-      postImageSrc:
-        "https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80",
-      title: "Лучшие места для путешествий",
-      authorName: "Тони Карлсон",
-      url: "https://timerse.com",
-    },
-  ];
 
   return (
     <Container>
@@ -163,9 +111,7 @@ export default () => {
                 ? posts?.data?.map((post, index) => (
                     <Post
                       key={index}
-                      href={
-                        "/blogs/" + post?.attributes?.slug
-                      }
+                      href={"/blog/" + post?.attributes?.slug+'?hl=true'}
                       className="group"
                       initial="rest"
                       whileHover="hover"
@@ -174,11 +120,7 @@ export default () => {
                       <Image
                         transition={{ duration: 0.3 }}
                         variants={postBackgroundSizeAnimation}
-                        imageSrc={
-                          "http://admin.kut-tourism.kg" +
-                          post?.attributes?.cover?.data?.attributes?.formats
-                            ?.small?.url
-                        }
+                        imageSrc={getStrapiMedia(post?.attributes?.cover)}
                       />
                       <Title>{post?.attributes?.title}</Title>
                       <Description>{post?.attributes?.description}</Description>

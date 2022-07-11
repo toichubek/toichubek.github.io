@@ -1,0 +1,35 @@
+GMAIL 
+Login- kuttourim.kg@gmail.com
+Passw-  KutTourism2022
+______________________________________________________
+
+site - https://kut-tourism.kg/
+
+admin - https://admin.kut-tourism.kg/admin
+
+super-user superadmin@kut-tourism.kg
+super-pass SuperKutTourism2022
+
+admin-user kuttourim.kg@gmail.com
+admin-pass KutTourism2022
+
+_______________________________________________
+SERVER 
+vestaPanel https://91.207.28.92:43281/
+admin pWr0GkdbHZ
+
+hostSSH - 91.207.28.92:22 
+root kjnSd8asd78as
+admin pWr0GkdbHZ
+
+http://91.207.28.92/phpmyadmin/
+DB=mysql
+DATABASE_NAME=admin_kut
+DATABASE_USERNAME=admin_strapi
+DATABASE_PASSWORD =strapi5
+
+
+sudo mysqldump -u [user] -p [database_name] > [filename].sql
+
+sudo mysqldump -u root -p admin_kut > strapi_backup.sql
+

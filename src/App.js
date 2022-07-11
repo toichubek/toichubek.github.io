@@ -44,28 +44,41 @@ import KutMain from "pages/KutMain.js";
 import TeamPage from "pages/TeamPage.js";
 import BlogDetailPage from "pages/BlogDetail.js";
 import TourDetailPage from "pages/TourDetail.js";
+import AnimationRevealPage from "helpers/AnimationRevealPage.js";
+import Header from "components/headers/light.js";
+import Footer from "components/footers/MiniCenteredFooter.js";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 
 export default function App() {
+  const { t, i18n } = useTranslation();
   // If you want to disable the animation just use the disabled `prop` like below on your page's component
   // return <AnimationRevealPage disabled>xxxxxxxxxx</AnimationRevealPage>;
   const [homepage, setHomePage] = React.useState(null);
   const [menu, setMenu] = React.useState(null);
   const [global, setGlobal] = React.useState(null);
-  useEffect(() => {
-    async function fetchData() {
-      console.log("homepageRes");
+  const [lang, setLang] = React.useState(i18n.resolvedLanguage);
 
+  const changeLang = () => {
+    const l = i18n.language == "ru" ? "en" : "ru";
+    setLang(l);
+    i18n.changeLanguage(l);
+  };
+  const getInitialData = () => {
+    async function fetchData() {
       const [menuRes, homepageRes, globalRes] = await Promise.all([
-        fetchAPI("/menu", { populate: "*", locale: "ru" }),
+        fetchAPI("/menu", { populate: "*", locale: lang }),
         fetchAPI("/homepage", {
+          // populate: "*",
+          locale: lang,
           populate: {
             heros: { populate: "*" },
             seo: { populate: "*" },
           },
         }),
-        fetchAPI("/global", { populate: "*", locale: "ru" }),
+        fetchAPI("/global", { populate: "*", locale: lang }),
       ]);
       setHomePage(homepageRes);
       setMenu(menuRes);
@@ -73,11 +86,26 @@ export default function App() {
       console.log({ homepageRes, menuRes, globalRes });
     }
     fetchData();
+  };
+  useEffect(() => {
+    getInitialData();
   }, []);
+  useEffect(() => {
+    getInitialData();
+  }, [lang]);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* <Route path="/components/:type/:subtype/:name">
+    <AnimationRevealPage>
+      <BrowserRouter>
+        <Header
+          layout={true}
+          lang={lang}
+          handleLang={changeLang}
+          menu={menu}
+          global={global}
+        />
+        <Routes>
+          {/* <Route path="/components/:type/:subtype/:name">
           <ComponentRenderer />
         </Route>
         <Route path="/components/:type/:name">
@@ -86,42 +114,36 @@ export default function App() {
         <Route path="/thank-you">
           <ThankYouPage />
         </Route> */}
-        <Route path="/team" element={<TeamPage global={global} menu={menu} />} />
+          <Route path="/contacts" element={<TeamPage lang={lang} />} />
 
-        <Route path="/blog/detail" element={<BlogDetailPage global={global} menu={menu} />} />
+          <Route path="/blog/:slug" element={<BlogDetailPage lang={lang} />} />
 
-        <Route path="/blog" element={<BlogIndexPage global={global} menu={menu} />} />
+          <Route path="/blog" element={<BlogIndexPage lang={lang} />} />
 
-        <Route path="/about" element={<AboutUsPage global={global} menu={menu} />} />
+          <Route path="/about" element={<AboutUsPage lang={lang} />} />
 
-        <Route path="/tours" element={<TourIndexPage global={global} menu={menu} />} />
+          <Route path="/tours" element={<TourIndexPage lang={lang} />} />
 
-        <Route path="/tour/detail" element={<TourDetailPage global={global} menu={menu} />} />
-        <Route path="/" element={<KutMain menu={menu} global={global} homepage={homepage} />} />
+          <Route path="/tours/:slug" element={<TourDetailPage lang={lang} />} />
+          <Route
+            path="/"
+            element={
+              <KutMain
+                lang={lang}
+                changeLang={changeLang}
+                menu={menu}
+                global={global}
+                homepage={homepage}
+              />
+            }
+          />
 
-        {/* <HotelTravelLandingPage />   */}
-        {/* <MainLandingPage /> */}
-        {/* </Route> */}
-      </Routes>
-    </BrowserRouter>
+          {/* <HotelTravelLandingPage />   */}
+          {/* <MainLandingPage /> */}
+          {/* </Route> */}
+        </Routes>
+        <Footer menu={menu} global={global} />
+      </BrowserRouter>
+    </AnimationRevealPage>
   );
 }
-
-// export default EventLandingPage;
-// export default HotelTravelLandingPage;
-// export default AgencyLandingPage;
-// export default SaaSProductLandingPage;
-// export default RestaurantLandingPage;
-// export default ServiceLandingPage;
-// export default HostingCloudLandingPage;
-
-// export default LoginPage;
-// export default SignupPage;
-// export default PricingPage;
-// export default AboutUsPage;
-// export default ContactUsPage;
-// export default BlogIndexPage;
-// export default TermsOfServicePage;
-// export default PrivacyPolicyPage;
-
-// export default MainLandingPage;

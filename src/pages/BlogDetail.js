@@ -1,8 +1,12 @@
-import React from "react";
-import AnimationRevealPage from "helpers/AnimationRevealPage.js";
+import React, { useState, useEffect } from "react";
 import tw from "twin.macro";
 import styled from "styled-components"; //eslint-disable-line
 import { css } from "styled-components/macro"; //eslint-disable-line
+import { fetchAPI } from "helpers/api";
+import { useTranslation } from "react-i18next";
+import { getStrapiMedia } from "helpers/media";
+import { useParams } from "react-router-dom";
+
 import Header from "components/headers/light.js";
 import Footer from "components/footers/MiniCenteredFooter.js";
 // import Footer from "components/footers/FiveColumnWithInputForm.js";
@@ -18,18 +22,46 @@ import ShieldIconImage from "images/shield-icon.svg";
 import CustomerLoveIconImage from "images/simple-icon.svg";
 
 const Subheading = tw.span`uppercase tracking-wider text-sm`;
-export default ({menu, global}) => {
-  return (
-    <AnimationRevealPage>
-      <Header menu={menu} global={global} />
-      <MainFeature1
-        subheading={<Subheading>Статья</Subheading>}
-        heading="Как подготовиться к путешествию"
-        buttonRounded={false}
-        primaryButtonText="Все статьи"
-        imageSrc="http://admin.kut-tourism.kg/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z"
-      />
-      <Footer menu={menu} global={global} />
-    </AnimationRevealPage>
+export default ({ lang }) => {
+  const { t } = useTranslation();
+  let { slug } = useParams();
+  const [blog, setBlog] = useState(null);
+  useEffect(() => {
+    getData();
+  }, [lang]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+  const getData = () => {
+    async function fetchData() {
+      const [blogRes] = await Promise.all([
+        fetchAPI("/blogs", {
+          locale: lang,
+          filters: {
+            slug: {
+              $eq: slug,
+            },
+          },
+          populate: "*",
+        }),
+      ]);
+      console.log("blogRes");
+      console.log({ blogRes });
+      setBlog(blogRes);
+      // setTeam(teamRes);
+    }
+    fetchData();
+  };
+  if (!blog) return <p>Идет загрузка...</p>
+   return (
+    <MainFeature1
+      subheading={<Subheading>Статья</Subheading>}
+      heading={blog?.data[0].attributes?.title}
+      description={blog?.data[0].attributes?.content}
+      buttonRounded={false}
+      primaryButtonText="Все статьи"
+      imageSrc={getStrapiMedia(blog?.data[0].attributes?.cover)}
+    />
   );
 };

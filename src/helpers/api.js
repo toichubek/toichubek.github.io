@@ -1,14 +1,15 @@
 import qs from "qs";
 
+export const HOST = "https://kut-tourism.kg";
+export const HOST_ADMIN = "https://admin.kut-tourism.kg";
+
 /**
  * Get full Strapi URL from path
  * @param {string} path Path of the URL
  * @returns {string} Full Strapi URL
  */
 export function getStrapiURL(path = "") {
-  return `${
-    process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://admin.kut-tourism.kg"
-  }${path}`;
+  return `${process.env.NEXT_PUBLIC_STRAPI_API_URL || HOST_ADMIN}${path}`;
 }
 
 /**

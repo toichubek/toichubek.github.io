@@ -3,20 +3,22 @@ import { motion } from "framer-motion";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import useAnimatedNavToggler from "../../helpers/useAnimatedNavToggler.js";
 
 import logo from "../../images/logo.svg";
 import { ReactComponent as MenuIcon } from "feather-icons/dist/icons/menu.svg";
 import { ReactComponent as CloseIcon } from "feather-icons/dist/icons/x.svg";
+import { HOST_ADMIN } from "helpers/api.js";
 
 const Header = tw.header`
   flex justify-between items-center
   max-w-screen-xl mx-auto
 `;
 
-export const NavLinks = tw.div`inline-block`;
+export const NavLinks = tw.div`inline-block cursor-pointer`;
 
 /* hocus: stands for "on hover or focus"
  * hocus:bg-primary-700 will apply the bg-primary-700 class on hover or focus
@@ -35,7 +37,7 @@ export const PrimaryLink = tw(NavLink)`
 `;
 
 export const LogoLink = styled(NavLink)`
-  ${tw`flex items-center font-black border-b-0 text-2xl! ml-0!`};
+  ${tw`flex items-center font-black border-b-0 text-base ml-0! cursor-pointer`};
 
   img {
     ${tw`w-20 mr-3`}
@@ -65,9 +67,12 @@ export default ({
   className,
   collapseBreakpointClass = "lg",
   global,
+  layout = false,
+  handleLang,
 }) => {
+  const location = useLocation();
   const navigate = useNavigate();
-
+  const { t, i18n } = useTranslation();
   /*
    * This header component accepts an optionals "links" prop that specifies the links to render in the navbar.
    * This links props should be an array of "NavLinks" components which is exported from this file.
@@ -81,14 +86,37 @@ export default ({
    * changing the defaultLinks variable below below.
    * If you manipulate links here, all the styling on the links is already done for you. If you pass links yourself though, you are responsible for styling the links or use the helper styled components that are defined here (NavLink)
    */
+  const handleClick = () => {
+    console.log("hl", window.location.search.includes("hl=true"));
+    if (window.location.search.includes("hl=true")) return;
+    handleLang();
+  };
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink onClick={() => navigate("/")}>Главная</NavLink>
+      <NavLink
+        onClick={() => {
+          navigate("/");
+          toggleNavbar();
+        }}
+      >
+        {t("main")}
+      </NavLink>
       {menu?.data.attributes.menuItem.map((item) => (
-        <NavLink key={item.id} onClick={() => navigate(item.url)}>
+        <NavLink
+          key={item.id}
+          onClick={() => {
+            navigate(item.url);
+            toggleNavbar();
+          }}
+        >
           {item.name}
         </NavLink>
       ))}
+
+      <PrimaryLink onClick={handleClick}>
+        {i18n.language == "ru" ? "Eng" : "Рус"}
+      </PrimaryLink>
+
       {/* <NavLink href="/#">About</NavLink>
       <NavLink href="/#">Blog</NavLink>
       <NavLink href="/#">Pricing</NavLink>
@@ -96,22 +124,20 @@ export default ({
       <NavLink href="/#" tw="lg:ml-12!">
         Login
       </NavLink> */}
-      {/* <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}href="/#">Sign Up</PrimaryLink> */}
     </NavLinks>,
   ];
 
   const { showNavLinks, animation, toggleNavbar } = useAnimatedNavToggler();
+  if (location.pathname == "/" && layout) {
+    return null;
+  }
   const collapseBreakpointCss =
     collapseBreakPointCssMap[collapseBreakpointClass];
-  const logoUrl =
-    global?.data?.attributes?.favicon?.data?.attributes?.url;
+  const logoUrl = global?.data?.attributes?.favicon?.data?.attributes?.url;
   const defaultLogoLink = (
     <LogoLink onClick={() => navigate("/")}>
-      <img
-        src={logoUrl ? "http://admin.kut-tourism.kg" + logoUrl : logo}
-        alt="logo"
-      />
-      {global?.data?.attributes?.siteName || "Кут туризм"}
+      <img src={logoUrl ? HOST_ADMIN + logoUrl : logo} alt="logo" />
+      {global?.data?.attributes?.siteName || t("siteName")}
     </LogoLink>
   );
 

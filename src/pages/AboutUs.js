@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AnimationRevealPage from "helpers/AnimationRevealPage.js";
 import tw from "twin.macro";
+import { fetchAPI } from "helpers/api";
+import { useTranslation } from "react-i18next";
+import { getStrapiMedia } from "helpers/media";
 import styled from "styled-components"; //eslint-disable-line
 import { css } from "styled-components/macro"; //eslint-disable-line
 import Header from "components/headers/light.js";
@@ -18,18 +21,43 @@ import ShieldIconImage from "images/shield-icon.svg";
 import CustomerLoveIconImage from "images/simple-icon.svg";
 
 const Subheading = tw.span`uppercase tracking-wider text-sm`;
-export default ({menu, global}) => {
+export default ({ lang }) => {
+  const { t } = useTranslation();
+  const [about, setAbout] = React.useState(null);
+  const [team, setTeam] = React.useState(null);
+  useEffect(() => {
+    getData();
+  }, [lang]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+  const getData = () => {
+    async function fetchData() {
+      const [aboutRes, teamRes] = await Promise.all([
+        fetchAPI("/about", { locale: lang, populate: "*" }),
+        fetchAPI("/guides", { locale: lang, populate: "*" }),
+      ]);
+      console.log("aboutRes");
+      console.log({ aboutRes, teamRes });
+      setAbout(aboutRes);
+      setTeam(teamRes);
+    }
+    fetchData();
+  };
+
   return (
-    <AnimationRevealPage>
-      <Header menu={menu} global={global} />
+    <>
       <MainFeature1
-        subheading={<Subheading>О нас</Subheading>}
-        heading="МЫ ПРОСТО ИНТЕРЕСНЫ"
+        subheading={<Subheading>{t("about")}</Subheading>}
+        heading={about?.data?.attributes?.title || "МЫ ПРОСТО ИНТЕРЕСНЫ"}
         buttonRounded={false}
-        primaryButtonText="Туры"
-        imageSrc="http://admin.kut-tourism.kg/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z"
+        imageSrc={about && getStrapiMedia(about?.data?.attributes?.image)}
+        description={about?.data?.attributes?.description || ""}
+        // primaryButtonText="Туры"
+        // imageSrc="http://admin.kut-tourism.kg/uploads/photo_1582564286939_400a311013a2_ixlib_rb_1_2_59db50d417.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1024&q=80?updated_at=2022-06-18T04:58:04.920Z"
       />
-     {/*  <MainFeature1
+      {/*  <MainFeature1
         subheading={<Subheading>Our Vision</Subheading>}
         heading="We aim to disrupt the design space."
         buttonRounded={false}
@@ -60,10 +88,11 @@ export default ({menu, global}) => {
         ]}
         linkText=""
       /> */}
-      <TeamCardGrid 
+      <TeamCardGrid
+        lang={lang}
+        team={team}
         // subheading={<Subheading>Гиды</Subheading>}
       />
-      <Footer menu={menu} global={global} />
-    </AnimationRevealPage>
+    </>
   );
 };

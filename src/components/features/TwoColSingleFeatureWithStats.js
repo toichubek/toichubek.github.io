@@ -35,31 +35,30 @@ const Statistic = tw.div`text-lg sm:text-2xl lg:text-3xl w-1/2 mt-4 lg:mt-10 tex
 const Value = tw.div`font-bold text-primary-500`;
 const Key = tw.div`font-medium text-gray-700`;
 
-export default ({ textOnLeft = false }) => {
+export default ({ textOnLeft = false, lang }) => {
   const [statistics, setStats] = React.useState([]);
   const [progres, setProgress] = React.useState(null);
 
   useEffect(() => {
+    getData();
+  }, []);
+  useEffect(() => {
+    getData();
+  }, [lang]);
+
+  const getData = () => {
     async function fetchData() {
       const [progressRes] = await Promise.all([
-        fetchAPI("/progress", { populate: "*", locale: "ru" }),
-        // fetchAPI("/homepage", {
-        //   populate: {
-        //     heros: { populate: "*" },
-        //     seo: { populate: "*" },
-        //   },
-        // }),
+        fetchAPI("/progress", { populate: "*", locale: lang }),
       ]);
       setProgress(progressRes);
       let progStat = progressRes.data.attributes.achievement;
       if (progStat && progStat.length) {
         setStats(progStat);
       }
-      // setMenu(menuRes);
-      console.log({ progressRes, progStat });
     }
     fetchData();
-  }, []);
+  };
   // The textOnLeft boolean prop can be used to display either the text on left or right side of the image.
   let placeholder = {
     data: {
